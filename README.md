@@ -25,6 +25,6 @@ N/A
 
 ## Usage
 
-The Work Day Scheduler can be found at this link:
+The Work Day Scheduler can be found at this link: https://satsumasegment.github.io/daily-planner-bootcamp-challenge/
 
 Use the text fields to enter information and the save buttons to save the information to local storage.
