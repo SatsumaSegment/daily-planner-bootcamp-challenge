@@ -42,11 +42,12 @@ function generatePlanner() {
     // Loop working hours and use 'i' as an reference for each hour
     for (var i = 9; i < 18; i++) {
 
+        var input = $('<textarea>').addClass('description col-10').attr('data-num', i);
+        var block = $('<div>').addClass('time-block');
         var row = $('<div>').addClass('row');
-        var saveButton = $('<div> <i>').addClass('saveBtn');
-        var hour = $('<div>').addClass('hour');
-
-        saveButton.text('Save');
+        var saveButton = $('<div>').addClass('saveBtn col-1');
+        saveButton.append($('<i class="fa fa-save"></i>')).attr('data-num', i);
+        var hour = $('<div>').addClass('hour col-1');
 
         // Assign hour text to each hour element
         // if hour is less than 12 add AM
@@ -63,19 +64,31 @@ function generatePlanner() {
         // Assign past, present and future classes to each row 
         // depending on current time.
         if (i === dayjs().hour()) {
-            row.addClass('present');
+            block.addClass('present');
         } else if (i > dayjs().hour()) {
-            row.addClass('future');
+            block.addClass('future');
         } else {
-            row.addClass('past');
+            block.addClass('past');
         }
 
+        // Load any perviously entered events
+        if (localStorage.getItem(i) != null) {
+            input.text(localStorage.getItem(i));
+        }
+
+        // Append all items to the page
         row.append(hour);
+        row.append(input);
         row.append(saveButton);
-        plannerTimes.append(row);
+        block.append(row);
+        plannerTimes.append(block);
+
+        // Save event to local storage when its save button is clicked
+        saveButton.on('click', function() {
+            var btn = $(this).attr('data-num');
+            localStorage.setItem(btn, $('[data-num='+ btn +']').val());
+        });
     }
-
 }
-
 
 generatePlanner();
